@@ -17,7 +17,10 @@ public class GestionClientes {
         System.out.println("2. Nuevo cliente");
         System.out.println("3. Modificar cliente");
         System.out.println("4. Eliminar cliente");
-        System.out.println("5. Salir");
+        System.out.println("5. Crear Tabla");
+        System.out.println("6. Filtrar fila de una Tabla");
+        System.out.println("7. Volcar Tabla a un fichero");
+        System.out.println("8. Salir");
         
         Scanner in = new Scanner(System.in);
             
@@ -37,6 +40,15 @@ public class GestionClientes {
                 opcionEliminarCliente();
                 return false;
             case 5:
+            	opcionCrearTabla();
+            	return false;
+            case 6:
+            	opcionFiltrarFila();
+            	return false;
+            case 7:
+            	opcionVolcarFichero();
+            	return false;
+            case 8:
                 return true;
             default:
                 System.out.println("Opción elegida incorrecta");
@@ -165,6 +177,47 @@ public class GestionClientes {
         	
             System.out.println("Error :(");
         }
+    }
+    
+    public static void opcionCrearTabla() {
+    	
+    	
+    	
+    }
+    
+    public static void opcionFiltrarFila() {
+    	
+    	Scanner s = new Scanner(System.in);
+    	
+    	String tabla, id;
+    	
+    	System.out.println("Introduzca el nombre de la tabla: ");
+    	tabla = s.nextLine();
+    	
+    	System.out.println("Introduzca el ID del cliente: ");
+    	id = s.nextLine();
+    	
+    	DBManager.filtrarFilaTabla(tabla, id);
+    	
+    }
+    
+    public static void opcionVolcarFichero() {
+    	
+    	Scanner s = new Scanner(System.in);
+    	
+    	String baseDatos, tabla, nombreFichero;
+    	
+    	System.out.println("Introduzca el nombre que quiera ponerle al fichero (incluida la extensión): ");
+    	nombreFichero = s.nextLine();
+    	
+    	System.out.println("Introduzca el nombre de la base de datos: ");
+    	baseDatos = s.nextLine();
+    	
+    	System.out.println("Introduzca el nombre de la tabla que quiera volcar: ");
+    	tabla = s.nextLine();
+    	
+    	DBManager.volcarFichero(nombreFichero, baseDatos, tabla);
+    	
     }
 	
 	public static void main(String[] args) {

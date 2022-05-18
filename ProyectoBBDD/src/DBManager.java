@@ -1,8 +1,6 @@
-import java.sql.DriverManager;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.ResultSet;
+import java.sql.*;
+import java.util.*;
+import java.io.*;
 /**
  * 
  */
@@ -143,7 +141,6 @@ public class DBManager {
         	
             Statement stmt = conn.createStatement(resultSetType, resultSetConcurrency);
             ResultSet rs = stmt.executeQuery(DB_CLI_SELECT);
-            //stmt.close();
             return rs;
             
         } catch (SQLException ex) {
@@ -168,15 +165,20 @@ public class DBManager {
      */
     public static void printTablaClientes() {
         try {
+        	
             ResultSet rs = getTablaClientes(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+            
             while (rs.next()) {
+            	
                 int id = rs.getInt(DB_CLI_ID);
                 String n = rs.getString(DB_CLI_NOM);
                 String d = rs.getString(DB_CLI_DIR);
                 System.out.println(id + "\t" + n + "\t" + d);
             }
             rs.close();
+            
         } catch (SQLException ex) {
+        	
             ex.printStackTrace();
         }
     }
@@ -197,9 +199,9 @@ public class DBManager {
             // Realizamos la consulta SQL
             Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             String sql = DB_CLI_SELECT + " WHERE " + DB_CLI_ID + "='" + id + "';";
-            //System.out.println(sql);
+
             ResultSet rs = stmt.executeQuery(sql);
-            //stmt.close();
+            
             
             // Si no hay primer registro entonces no existe el cliente
             if (!rs.first()) {
@@ -387,4 +389,171 @@ public class DBManager {
         }
 	
     }
+    
+    public static boolean crearTabla(String nombre, int numColum) {
+    	
+    	try {
+    		
+    		Scanner s = new Scanner(System.in);
+    		
+    		
+    		
+    		return true;
+    		
+    	}
+    	catch (SQLException ex) {
+    		
+    		System.err.println("No se ha podido crear la tabla");
+    		ex.printStackTrace();
+    		return false;
+    		
+    	}
+    	catch (Exception ex) {
+    		
+    		System.err.println("No se ha podido crear la tabla");
+    		ex.printStackTrace();
+    		return false;
+    		
+    	}
+    	
+    }
+    
+    /**
+     * Metodo que filtra una fila de una tabla concreta
+     * @param tabla de tipo String
+     * @param id de tipo String
+     * @return true si se muestra la fila 
+     */
+    
+    public static boolean filtrarFilaTabla(String tabla, String id) {
+    	
+    	try {
+    		
+    		String consulta = "SELECT * FROM " + DB_CLI + " WHERE " + DB_CLI_ID + " = ?";
+    		PreparedStatement pst = conn.prepareStatement(consulta);
+    		
+    		pst.setString(1, id);
+    		
+    		ResultSet rs = pst.executeQuery();
+    		
+    		while(rs.next()) {
+    			
+    			int id1 = rs.getInt("id");
+    			String nombre = rs.getString("nombre");
+    			String direccion = rs.getString("direccion");
+    			System.out.println(id1 + " , " + nombre + " , " + direccion);
+    			
+    		}
+    		pst.close();
+    		
+    		return true;
+    		
+    		
+    	}
+    	catch (SQLException ex) {
+    		
+    		System.err.println("No se ha podido filtrar la fila de la tabla indicada");
+    		ex.printStackTrace();
+    		return false;
+    		
+    	}
+    	catch (Exception ex) {
+    		
+    		System.err.println("No se ha podido filtrar la fila de la tabla indicada");
+    		ex.printStackTrace();
+    		return false;
+    		
+    	}
+    	
+    }
+    
+    public static boolean volcarFichero(String nombreFichero, String baseDatos, String tabla) {
+    	
+    	try {
+    		
+    		// Creamos el fichero y escribimos las dos primeras lineas
+    		File fichero = new File(nombreFichero);
+    		fichero.createNewFile();
+    		FileWriter escribir = new FileWriter(fichero);
+    		
+    		escribir.write(baseDatos);
+    		escribir.write("\n");
+    		escribir.write("TABLA CLIENTES");
+    		escribir.write("\n");
+    		
+    		String consulta = "SELECT * FROM " + DB_CLI;
+    		Statement pst = conn.prepareStatement(consulta);
+    		
+    		ResultSet rs = pst.executeQuery(consulta);
+    		
+    		while(rs.next()) {
+    			
+    			int id = rs.getInt("id");
+    			String nombre = rs.getString("nombre");
+    			String direccion = rs.getString("direccion");
+    			escribir.write(id + " , " + nombre + " , " + direccion);
+    			escribir.write("\n");
+    			
+    		}
+    		pst.close();
+    		escribir.close();
+    		
+    		System.out.println("Tabla volcada al fichero " + nombreFichero);
+    		return true;
+    		
+    	}
+    	catch (SQLException ex) {
+    		
+    		ex.printStackTrace();
+    		return false;
+    		
+    	}
+    	catch (IOException ex) {
+    		
+    		System.err.println("No se ha podido volcar la información al fichero");
+    		ex.printStackTrace();
+    		return false;
+    		
+    	}
+    	catch (Exception ex) {
+    		
+    		System.err.println("No se ha podido volcar la información al fichero");
+    		ex.printStackTrace();
+    		return false;
+    		
+    	}
+    	
+    }
+    
+    public static boolean insertarDesdeFichero(File fichero) {
+    	
+    	try {
+    		
+    		
+    		
+    	}
+    	catch (SQLException ex) {
+    		
+    		ex.printStackTrace();
+    		return false;
+    		
+    	}
+    	catch (IOException ex) {
+    		
+    		System.err.println("No se ha podido volcar la información al fichero");
+    		ex.printStackTrace();
+    		return false;
+    		
+    	}
+    	catch (Exception ex) {
+    		
+    		System.err.println("No se ha podido volcar la información al fichero");
+    		ex.printStackTrace();
+    		return false;
+    		
+    	}
+    	
+    }
+    
+    
 }
