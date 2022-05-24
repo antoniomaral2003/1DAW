@@ -1,0 +1,7 @@
+tienda
+clientes
+Antonio , Málaga
+Rosa , Jaén
+Raúl ,  Málaga
+Alberto , Sevilla
+Rubén , Huelva

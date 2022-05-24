@@ -1,0 +1,7 @@
+tienda
+clientes
+6,Catellón
+1,Leo
+8,Alicante
+14,Punta Umbría
+11,Lorenzo
