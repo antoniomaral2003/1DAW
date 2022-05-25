@@ -197,7 +197,18 @@ public class GestionClientes {
     
     public static void opcionCrearTabla() {
     	
+    	Scanner s = new Scanner(System.in);
     	
+    	String nombre;
+    	int numColum;
+    	
+    	System.out.println("Introduzca el nombre de la tabla: ");
+    	nombre = s.nextLine();
+    	
+    	System.out.println("Introduzca el numero de columnas quiera tener en la tabla: ");
+    	numColum = s.nextInt();
+    	
+    	DBManager.crearTabla(nombre, numColum);
     	
     }
     
@@ -244,7 +255,7 @@ public class GestionClientes {
     	
     	String nombre;
     	
-    	System.out.println("introduzca el nombre del fichero (incluida su extension): ");
+    	System.out.println("Introduzca el nombre del fichero (incluida su extension): ");
     	nombre = s.nextLine();
     	
     	File fichero = new File(nombre);
@@ -272,6 +283,7 @@ public class GestionClientes {
 			String[] separados = datos.split(",");
 			
 			String comillas = "";
+			
 			for (int contador2 = 0; contador2 < separados.length; contador2++) {
 				
 				if (contador2 == separados.length - 1) {
@@ -298,13 +310,125 @@ public class GestionClientes {
     
     public static void opcionActualizarClientesFichero() {
     	
+    	Scanner s = new Scanner(System.in);
     	
+    	ArrayList<String> clientes = new ArrayList();
+    	
+    	String nombre;
+    	
+    	System.out.println("Introduzca el nombre del fichero (incluida su extension): ");
+    	nombre = s.nextLine();
+    	
+    	File fichero = new File(nombre);
+    	
+    	try {
+    		
+			Scanner lectura = new Scanner(fichero);
+			
+			while(lectura.hasNext()) {
+				
+				clientes.add(lectura.nextLine());
+				
+			}
+			
+		} catch (FileNotFoundException e) {
+			
+			e.printStackTrace();
+			
+		}
+    	
+    	for (int contador = 2; contador < clientes.size(); contador++) {
+			
+			String datos = clientes.get(contador);
+			
+			String[] separados = datos.split(",");
+			
+			String comillasId = "";
+			String comillasNombre = "";
+			String comillasDireccion = "";
+			
+			for (int contador2 = 2; contador2 < separados.length; contador2++) {
+				
+				if (contador2 == separados.length - 1) {
+					
+					comillasId += "'"+separados[0]+"'";
+					comillasNombre += "'"+separados[1]+"'";
+					comillasDireccion += "'"+separados[2]+"'";
+					
+				} else {
+					
+					comillasId += "'"+separados[0]+"',";
+					comillasNombre += "'"+separados[1]+"',";
+					comillasDireccion += "'"+separados[2]+"',";
+					
+				}
+				
+			}
+			
+		
+			DBManager.actualizarDesdeFichero(comillasId, comillasNombre, comillasDireccion);
+			
+			
+		}
     	
     }
     
     public static void opcionBorrarClientesFichero() {
     	
+    	Scanner s = new Scanner(System.in);
     	
+    	ArrayList<String> clientes = new ArrayList();
+    	
+    	String nombre;
+    	
+    	System.out.println("Introduzca el nombre del fichero (incluida su extension): ");
+    	nombre = s.nextLine();
+    	
+    	File fichero = new File(nombre);
+    	
+    	try {
+    		
+			Scanner lectura = new Scanner(fichero);
+			
+			while(lectura.hasNext()) {
+				
+				clientes.add(lectura.nextLine());
+				
+			}
+			
+		} catch (FileNotFoundException e) {
+			
+			e.printStackTrace();
+			
+		}
+    	
+    	for (int contador = 2; contador < clientes.size(); contador++) {
+			
+			String datos = clientes.get(contador);
+			
+			String[] separados = datos.split(",");
+			
+			String comillas = "";
+			
+			for (int contador2 = 2; contador2 < separados.length; contador2++) {
+				
+				if (contador2 == separados.length - 1) {
+					
+					comillas += "'"+separados[0]+"'";
+					
+				} else {
+					
+					comillas += "'"+separados[0]+"',";
+					
+				}
+				
+			}
+			
+		 
+			DBManager.borrarDesdeFichero(comillas);
+			
+			
+		}
     	
     }
 	

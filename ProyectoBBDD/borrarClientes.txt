@@ -1,0 +1,7 @@
+tienda
+clientes
+6,Eduardo,Catellon
+1,Leo,Salamanca
+8,Gertrudis,Alicante
+14,Roberto,Punta Umbria
+11,Lorenzo,Toledo

@@ -391,12 +391,86 @@ public class DBManager {
 	
     }
     
+    /**
+     * Metodo que crea una nueva tabal en la base de datos
+     * @param nombre de tipo String
+     * @param numColum de tipo int
+     * @return true si se ha creado la tabla correctamente
+     */
     public static boolean crearTabla(String nombre, int numColum) {
     	
     	try {
     		
     		Scanner s = new Scanner(System.in);
     		
+    		String nombreColum, tipoDato;
+    		
+    		String consulta = "CREATE TABLE "+nombre+" (numeros INT)";
+    		PreparedStatement pst = conn.prepareStatement(consulta);
+    		
+    		int rs = pst.executeUpdate();
+    		
+    		pst.close();
+    		
+    		for (int contador = 0; contador < numColum; contador++) {
+    			
+    			try {
+    				
+    				System.out.println("Introduzca el nombre de la columna: ");
+    				nombreColum = s.nextLine();
+    				
+    				System.out.println("Introduzca el tipo de dato que almacenara la columna (int o String): ");
+    				tipoDato = s.nextLine();
+    				
+    				switch (tipoDato) {
+    				
+    					case "int":
+    					
+	    					String consulta2 = "ALTER TABLE "+nombre+" ADD "+nombreColum+" INT NOT NULL FIRST";
+	    					PreparedStatement pst2 = conn.prepareStatement(consulta2);
+	    					
+	    					int rs2 = pst2.executeUpdate();
+	    					pst2.close();
+	    					return true;
+    					
+    					case "String":
+    						
+    						String consulta3 = "ALTER TABLE "+nombre+" ADD "+nombreColum+" VARCHAR(30) NOT NULL FIRST";
+    						PreparedStatement pst3 = conn.prepareStatement(consulta3);
+    						
+    						int rs3 = pst3.executeUpdate();
+    						pst3.close();
+    						return true;
+    				
+    				}
+    				
+    				if (contador == 0) {
+    					
+    					String consulta4 = "ALTER TABLE "+nombre+" DROP COLUMN numeros";
+    					PreparedStatement pst4 = conn.prepareStatement(consulta4);
+    					
+    					int rs4 = pst4.executeUpdate();
+    					pst4.close();
+    					
+    				}
+    				
+    			}
+    			catch (SQLException ex) {
+    				
+    				System.err.println("No se ha podido crear la columna");
+    	    		ex.printStackTrace();
+    	    		return false;
+    				
+    			}
+    			catch (Exception ex) {
+    				
+    				System.err.println("No se ha podido crear la columna");
+    	    		ex.printStackTrace();
+    	    		return false;
+    				
+    			}
+    			
+    		}
     		
     		
     		return true;
@@ -423,7 +497,7 @@ public class DBManager {
      * Metodo que filtra una fila de una tabla concreta
      * @param tabla de tipo String
      * @param id de tipo String
-     * @return true si se muestra la fila 
+     * @return true si se muestra la fila correctamente
      */
     
     public static boolean filtrarFilaTabla(String tabla, String id) {
@@ -468,6 +542,13 @@ public class DBManager {
     	
     }
     
+    /**
+     * Metodo que permite pasar los datos de una tabla a un fichero de texto
+     * @param nombreFichero de tipo String
+     * @param baseDatos de tipo String
+     * @param tabla de tipo String
+     * @return true si se han pasado los datos al fichero de texto correctamente
+     */
     public static boolean volcarFichero(String nombreFichero, String baseDatos, String tabla) {
     	
     	try {
@@ -553,7 +634,7 @@ public class DBManager {
     	}
     	catch (Exception ex) {
     		
-    		System.err.println("No se hsn podido insertar los clientes");
+    		System.err.println("No se han podido insertar los clientes");
     		ex.printStackTrace();
     		return false;
     		
@@ -561,11 +642,28 @@ public class DBManager {
     	
     }
     
-    public static boolean actualizarDesdeFichero(String valores) {
+    public static boolean actualizarDesdeFichero(String id, String nombre, String direccion) {
     	
     	try {
     		
+    		// Actualizamos el nombre
+    		String consulta = "UPDATE "+DB_CLI+" SET "+DB_CLI_NOM+" = "+nombre+" WHERE "+DB_CLI_ID+" = "+id;
+    		PreparedStatement pst = conn.prepareStatement(consulta);
     		
+    		int rs = pst.executeUpdate();
+    		
+    		pst.close();
+    		
+    		// Actualizamos la direccion
+    		String consulta2 = "UPDATE "+DB_CLI+" SET "+DB_CLI_DIR+" = "+direccion+" WHERE "+DB_CLI_ID+" = "+id;
+    		PreparedStatement pst2 = conn.prepareStatement(consulta2);
+    		
+    		int rs2 = pst2.executeUpdate();
+    		
+    		pst2.close();
+    		
+    		System.out.println("Actualizacion realizada");
+    		return true;
     		
     	}
     	catch (SQLException ex) {
@@ -578,6 +676,38 @@ public class DBManager {
     	catch (Exception ex) {
     		
     		System.err.println("No se ha podido actualizar los datos de los clientes");
+    		ex.printStackTrace();
+    		return false;
+    		
+    	}
+    	
+    }
+    
+    public static boolean borrarDesdeFichero(String id) {
+    	
+    	try {
+    		
+    		String consulta = "DELETE FROM "+DB_CLI+" WHERE "+DB_CLI_ID+" = "+id;
+    		PreparedStatement pst = conn.prepareStatement(consulta);
+    		
+    		int rs = pst.executeUpdate();
+    		
+    		pst.close();
+    		
+    		System.out.println("Cliente eliminado correctamente");
+    		return true;
+    		
+    	}
+    	catch (SQLException ex) {
+    		
+    		System.err.println("No se han podido borar los clientes");
+    		ex.printStackTrace();
+    		return false;
+    		
+    	}
+    	catch (Exception ex) {
+    		
+    		System.err.println("No se han podido borar los clientes");
     		ex.printStackTrace();
     		return false;
     		

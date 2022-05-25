@@ -1,7 +1,7 @@
 tienda
 clientes
-6,Catellón
-1,Leo
-8,Alicante
-14,Punta Umbría
-11,Lorenzo
+6,Eduardo,Catellon
+1,Leo,Salamanca
+8,Gertrudis,Alicante
+14,Roberto,Punta Umbria
+11,Lorenzo,Toledo
