@@ -431,7 +431,8 @@ public class DBManager {
 	    					
 	    					int rs2 = pst2.executeUpdate();
 	    					pst2.close();
-	    					return true;
+	    					
+	    					break;
     					
     					case "String":
     						
@@ -440,7 +441,8 @@ public class DBManager {
     						
     						int rs3 = pst3.executeUpdate();
     						pst3.close();
-    						return true;
+    						
+    						break;
     				
     				}
     				
@@ -472,7 +474,7 @@ public class DBManager {
     			
     		}
     		
-    		
+    		System.out.println("Tabla creada");
     		return true;
     		
     	}
@@ -607,6 +609,11 @@ public class DBManager {
     	
     }
     
+    /**
+     * Metodo que permite insertar nuevos clientes en la base de datos desde un fichero de texto
+     * @param valores de tipo String
+     * @return true si se han insertado los clientes correctamente
+     */
     public static boolean insertarDesdeFichero(String valores) {
     	
     	try {
@@ -642,6 +649,13 @@ public class DBManager {
     	
     }
     
+    /**
+     * Metodo que permite actualizar la informacion de los clientes desde un fichero de texto
+     * @param id de tipo String
+     * @param nombre de tipo String
+     * @param direccion de tipo String
+     * @return true si se ha actualizado la informacion de los clientes correctamente
+     */
     public static boolean actualizarDesdeFichero(String id, String nombre, String direccion) {
     	
     	try {
@@ -683,6 +697,11 @@ public class DBManager {
     	
     }
     
+    /**
+     * Metodo que permite borrar clientes de la base de datos desde un fichero de texto
+     * @param id de tipo String
+     * @return true si se han borrado los clientes correctamente
+     */
     public static boolean borrarDesdeFichero(String id) {
     	
     	try {
@@ -700,14 +719,57 @@ public class DBManager {
     	}
     	catch (SQLException ex) {
     		
-    		System.err.println("No se han podido borar los clientes");
+    		System.err.println("No se han podido borrar los clientes");
     		ex.printStackTrace();
     		return false;
     		
     	}
     	catch (Exception ex) {
     		
-    		System.err.println("No se han podido borar los clientes");
+    		System.err.println("No se han podido borrar los clientes");
+    		ex.printStackTrace();
+    		return false;
+    		
+    	}
+    	
+    }
+    
+    /**
+     * Metodo que ejecuta un procedimiento almacenado que muestra los clientes de Malaga
+     * @return true si se ha mostrado la tabla correctamente
+     */
+    public static boolean procedimientoMostrarMalaga() {
+    	
+    	try {
+    		
+    		String consulta = "CALL mostrar_clientes_malaga()";
+    		CallableStatement cst = conn.prepareCall(consulta);
+    		
+    		ResultSet rs = cst.executeQuery();
+    		
+    		while(rs.next()) {
+    			
+    			int id = rs.getInt("id");
+    			String nombre = rs.getString("nombre");
+    			String direccion = rs.getString("direccion");
+    			System.out.println(id+" , "+nombre+" , "+direccion);
+    			
+    		}
+    		cst.close();
+    		
+    		return true;
+    		
+    	}
+    	catch (SQLException ex) {
+    		
+    		System.err.println("No se ha podido ejecutar el procedimiento almacenado");
+    		ex.printStackTrace();
+    		return false;
+    		
+    	}
+    	catch (Exception ex) {
+    		
+    		System.err.println("No se ha podido ejecutar el procedimiento almacenado");
     		ex.printStackTrace();
     		return false;
     		

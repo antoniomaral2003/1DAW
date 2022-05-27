@@ -13,6 +13,10 @@ import DBManager.DBManager;
  */
 public class GestionClientes {
 	
+	/**
+	 * Metodo que muestra el menu principal del programa
+	 * @return true si se introduce el numero 12
+	 */
 	public static boolean menuPrincipal() {
 		
         System.out.println("");
@@ -27,7 +31,8 @@ public class GestionClientes {
         System.out.println("8. Insertar clientes desde un fichero");
         System.out.println("9. Actualizar clientes desde un fichero");
         System.out.println("10. Borrar clientes desde un fichero");
-        System.out.println("11. Salir");
+        System.out.println("11. Mostrar Clientes de Malaga");
+        System.out.println("12. Salir");
         
         Scanner in = new Scanner(System.in);
             
@@ -65,6 +70,9 @@ public class GestionClientes {
             	opcionBorrarClientesFichero();
             	return false;
             case 11:
+            	opcionMostrarClientesMalaga();
+            	return false;
+            case 12:
                 return true;
             default:
                 System.out.println("Opci�n elegida incorrecta");
@@ -72,7 +80,7 @@ public class GestionClientes {
         }
         
     }
-    
+   
     public static int pideInt(String mensaje){
         
         while(true) {
@@ -169,6 +177,9 @@ public class GestionClientes {
         }
     }
 
+    /**
+     * Metodo que permite eliminar un cliente
+     */
     public static void opcionEliminarCliente() {
     	
         Scanner in = new Scanner(System.in);
@@ -195,6 +206,9 @@ public class GestionClientes {
         }
     }
     
+    /**
+     * Metodo que permite crear una tabla
+     */
     public static void opcionCrearTabla() {
     	
     	Scanner s = new Scanner(System.in);
@@ -212,6 +226,9 @@ public class GestionClientes {
     	
     }
     
+    /**
+     * Metodo que muestra mostrar una fila de una tabla
+     */
     public static void opcionFiltrarFila() {
     	
     	Scanner s = new Scanner(System.in);
@@ -228,6 +245,9 @@ public class GestionClientes {
     	
     }
     
+    /**
+     * Metodo que permite pasar los datos de una tabla a un fichero de texto
+     */
     public static void opcionVolcarFichero() {
     	
     	Scanner s = new Scanner(System.in);
@@ -247,6 +267,9 @@ public class GestionClientes {
     	
     }
     
+    /**
+     * Metodo que permite insertar nuevos clientes en la base de datos desde un fichero de texto
+     */
     public static void opcionInsertarClientesFichero() {
     	
     	Scanner s = new Scanner(System.in);
@@ -308,6 +331,9 @@ public class GestionClientes {
     	
     }
     
+    /**
+     * Metodo que permite actualizar la informacion de los clientes desde un fichero de texto
+     */
     public static void opcionActualizarClientesFichero() {
     	
     	Scanner s = new Scanner(System.in);
@@ -373,6 +399,9 @@ public class GestionClientes {
     	
     }
     
+    /**
+     * Metodo que permite borrar clientes de la base de datos desde un fichero de texto
+     */
     public static void opcionBorrarClientesFichero() {
     	
     	Scanner s = new Scanner(System.in);
@@ -429,6 +458,15 @@ public class GestionClientes {
 			
 			
 		}
+    	
+    }
+    
+    /**
+     * Metodo que ejecuta un procedimiento almacenado que muestra los clientes de Malaga
+     */
+    public static void opcionMostrarClientesMalaga() {
+    	
+    	DBManager.procedimientoMostrarMalaga();
     	
     }
 	
