@@ -21,7 +21,7 @@ public class DBManager {
     private static final String DB_NAME = "tienda";
     private static final String DB_URL = "jdbc:mysql://" + DB_HOST + ":" + DB_PORT + "/" + DB_NAME + "?serverTimezone=UTC";
     private static final String DB_USER = "root";
-    private static final String DB_PASS = "1234";
+    private static final String DB_PASS = "AntonioMartin";
     private static final String DB_MSQ_CONN_OK = "CONEXI�N CORRECTA";
     private static final String DB_MSQ_CONN_NO = "ERROR EN LA CONEXI�N";
 
