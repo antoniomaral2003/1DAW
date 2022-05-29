@@ -11,4 +11,6 @@ En el proyecto de BBDD se han añadido 7 métodos nuevos a la clase DBManager, l
 
 Luego de eso, se ha modificado la clase principal GestionClientes para poder utilizar estos métodos a la hora de ejecutar el programa.
 
+Se han realizado las correspondientes pruebas de los métodos con el framework JUnit5
+
 Por último, se ha ido documentando con JavaDoc todos los métodos.
